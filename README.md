@@ -25,7 +25,7 @@ Main features:
 - Submit a quiz: the score is calculated and saved, and badges are awarded
 - View the leaderboard
 - Manage your profile and upload an avatar image (upload + download of files)
-- Admin: create, update and delete categories, subcategories, questions and answers
+- Admin: create, update and delete categories, subcategories, questions and answers, and add an image to a question
 
 ## Prerequisites
 
@@ -92,7 +92,7 @@ mvn spring-boot:run
 
 The API is available at `http://localhost:8080`.
 
-Note: the database is recreated on every start (`spring.jpa.hibernate.ddl-auto=create-drop`) and filled with the test data from `data.sql`. Uploaded avatars are saved in the folder `uploads/avatars` in the project root.
+Note: the database is recreated on every start (`spring.jpa.hibernate.ddl-auto=create-drop`) and filled with the test data from `data.sql`. Uploaded avatars and question images are saved in the folders `uploads/avatars` and `uploads/questions` in the project root.
 
 ## Running tests
 
@@ -137,11 +137,13 @@ Authentication uses a JWT in the `Authorization: Bearer <token>` header. The ful
 | POST, PUT, DELETE | `/api/subcategories[/{id}]`       | ADMIN         | Manage subcategories                |
 | GET    | `/api/questions`, `/api/questions/{id}`, `/api/questions/subcategory/{subcategoryId}` | Public | List / get questions |
 | POST, PUT, DELETE | `/api/questions[/{id}]`           | ADMIN         | Manage questions                    |
+| POST   | `/api/questions/{id}/image`       | ADMIN         | Upload question image (max 1 MB)    |
 | GET    | `/api/questions/{questionId}/answers[/{answerId}]` | Public  | List / get answers                  |
 | POST, PUT, DELETE | `/api/questions/{questionId}/answers[/{answerId}]` | ADMIN | Manage answers            |
 | POST   | `/api/quiz-attempts`                         | USER / ADMIN  | Submit a quiz attempt               |
 | GET, PUT | `/api/profile`                             | USER / ADMIN  | Get / update own profile            |
 | POST   | `/api/profile/avatar`                        | USER / ADMIN  | Upload avatar (multipart, field `file`) |
 | GET    | `/uploads/avatars/{filename}`                | Public        | Download an uploaded avatar         |
+| GET    | `/uploads/questions/{filename}`              | Public        | Download a question image           |
 | GET    | `/api/leaderboard`                           | Public        | Leaderboard                         |
 | GET    | `/api/badges`, `/api/badges/me`              | USER / ADMIN  | All badges / own earned badges      |

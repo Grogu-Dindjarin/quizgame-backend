@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -45,6 +46,12 @@ public class QuestionController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<QuestionResponse> update(@PathVariable Long id, @Valid @RequestBody QuestionRequest req) {
         return ResponseEntity.ok(questionService.update(id, req));
+    }
+
+    @PostMapping("/{id}/image")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<QuestionResponse> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(questionService.uploadImage(id, file));
     }
 
     @DeleteMapping("/{id}")
